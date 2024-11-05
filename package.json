@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
     "start": "node --env-file=.env ./dist/app.js",
-    "start:dev": "env $(cat .env) nodemon ./src/app.ts",
+    "start:dev": "nodemon -r dotenv/config ./src/app.ts",
     "swagger": "ts-node ./swagger.ts"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0",
