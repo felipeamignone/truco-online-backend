@@ -4,7 +4,7 @@ import { UserRepository } from "../repositories";
 import { AuthMiddleware } from "../middlewares";
 
 export default class UserController {
-  async login(req: Request, res: Response) {
+  async logIn(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
 
@@ -33,6 +33,18 @@ export default class UserController {
       res.status(500).json({
         message:
           "Não foi possível realizar o login! Tente novamente mais tarde",
+      });
+    }
+  }
+
+  async logOut(req: Request, res: Response) {
+    try {
+      res.clearCookie("token");
+      res.status(200).json({ message: "Usuário deslogado com sucesso!" });
+    } catch (error: any) {
+      res.status(500).json({
+        message:
+          "Não foi possível deslogar o usuário! Tente novamente mais tarde",
       });
     }
   }
