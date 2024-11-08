@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserEntity } from "../entities";
 import { UserRepository } from "../repositories";
+import { AuthMiddleware } from "../middlewares";
 
 export default class UserController {
   async login(req: Request, res: Response) {
@@ -14,12 +15,20 @@ export default class UserController {
       const repository = new UserRepository();
       const user = await repository.getByEmailAndPassword(email, password);
 
-      if (!user) {
+      if (!user || !user.id || !user.name) {
         return res.status(404).json({ message: "Usuário não encontrado!" });
       }
 
-      //TODO: Implementar a geração do token JWT
-      res.status(200).json({ message: "Usuário logado com sucesso!" });
+      const authMiddleware = new AuthMiddleware();
+      const token = authMiddleware.generateToken({
+        userId: user.id,
+        userName: user.name,
+      });
+
+      res.cookie("token", token, {
+        httpOnly: true,
+      });
+      res.status(200).json({ message: "Usuário autenticado com sucesso!" });
     } catch (error: any) {
       res.status(500).json({
         message:
