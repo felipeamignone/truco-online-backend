@@ -49,6 +49,16 @@
           }
         }
       }
+    },
+    "/api/user/logout": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "components": {

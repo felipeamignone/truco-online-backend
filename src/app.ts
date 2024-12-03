@@ -1,6 +1,7 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerOutput from "../swagger_output.json";
+import cors from "cors";
 
 import apiRouter from "./routes";
 import cookieParser from "cookie-parser";
@@ -10,8 +11,9 @@ const PORT = 5000;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
-app.use("/api", apiRouter);
+app.use("/", apiRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
 
 app.listen(PORT, () => {
