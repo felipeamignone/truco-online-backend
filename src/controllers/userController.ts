@@ -28,7 +28,14 @@ export default class UserController {
       res.cookie("token", token, {
         httpOnly: true,
       });
-      res.status(200).json({ message: "Usuário autenticado com sucesso!" });
+      res.status(200).json({
+        message: "Usuário autenticado com sucesso!",
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      });
     } catch (error: any) {
       res.status(500).json({
         message:
