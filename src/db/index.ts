@@ -1,4 +1,4 @@
-import mysql, { PoolOptions, QueryResult, ResultSetHeader } from "mysql2";
+import mysql, { ResultSetHeader } from "mysql2";
 
 export default class Database {
   #conexao;
@@ -19,12 +19,12 @@ export default class Database {
     });
   }
 
-  dispatchQuery<RowType>(sql: string, values?: unknown[]) {
+  dispatchQuery<T>(sql: string, values?: unknown[]) {
     const cnn = this.#conexao;
-    return new Promise<RowType[]>((resolve, reject) => {
-      cnn.query<QueryResult>(sql, values, (err, result) => {
+    return new Promise<T[]>((resolve, reject) => {
+      cnn.query(sql, values, (err, result) => {
         if (err) reject(err);
-        resolve(result as RowType[]);
+        resolve(result as T[]);
       });
     });
   }
@@ -32,7 +32,7 @@ export default class Database {
   dispatchNonQuery(sql: string, values: unknown[]) {
     const cnn = this.#conexao;
     return new Promise<Boolean>((resolve, reject) => {
-      cnn.query<QueryResult>(sql, values, (err, result) => {
+      cnn.query(sql, values, (err, result) => {
         if (err) reject(err);
         resolve((result as ResultSetHeader).affectedRows > 0);
       });
@@ -42,7 +42,7 @@ export default class Database {
   dispatchLastInserted(sql: string, values: unknown[]) {
     const cnn = this.#conexao;
     return new Promise<Number>((resolve, reject) => {
-      cnn.query<QueryResult>(sql, values, (err, result) => {
+      cnn.query(sql, values, (err, result) => {
         if (err) reject(err);
         resolve((result as ResultSetHeader).insertId);
       });

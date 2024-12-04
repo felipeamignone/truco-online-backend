@@ -1,5 +1,6 @@
 {
   "files": ["custom.d.ts"],
+  "include": ["src/**/*.ts", "custom.d.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

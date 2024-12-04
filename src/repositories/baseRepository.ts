@@ -1,7 +1,8 @@
 import Database from "../db";
 
 export default class BaseRepository {
-  #db;
+  #db: Database;
+
   get db() {
     return this.#db;
   }
